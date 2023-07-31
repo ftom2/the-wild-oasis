@@ -4,6 +4,7 @@
 import { createRouter, createWebHistory } from "vue-router"
 
 // with
+const AppLayout = () => import("@/layouts/AppLayout.vue")
 const DashboardPage = () => import("@pages/dashboard/DashboardPage.vue")
 const AccountPage = () => import("@pages/account/AccountPage.vue")
 const BookingsPage = () => import("@pages/bookings/BookingsPage.vue")
@@ -16,13 +17,19 @@ const NotFound = () => import("@pages/NotFound.vue")
 export const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: "/", redirect: { name: "Dashboard" } },
-        { path: "/dashboard", component: DashboardPage, name: "Dashboard" },
-        { path: "/account", component: AccountPage, name: "Account" },
-        { path: "/bookings", component: BookingsPage, name: "Bookings" },
-        { path: "/users", component: UsersPage, name: "Users" },
-        { path: "/cabins", component: CabinsPage, name: "Cabins" },
-        { path: "/settings", component: SettingsPage, name: "Settings" },
+        {
+            path: "/",
+            component: AppLayout,
+            children: [
+                { path: "", redirect: { name: "Dashboard" } },
+                { path: "dashboard", component: DashboardPage, name: "Dashboard" },
+                { path: "account", component: AccountPage, name: "Account" },
+                { path: "bookings", component: BookingsPage, name: "Bookings" },
+                { path: "users", component: UsersPage, name: "Users" },
+                { path: "cabins", component: CabinsPage, name: "Cabins" },
+                { path: "settings", component: SettingsPage, name: "Settings" }
+            ]
+        },
         { path: "/login", component: LoginPage, name: "Login" },
         { path: "/:pathMatch(.*)*", name: "NotFound", component: NotFound }
     ]
